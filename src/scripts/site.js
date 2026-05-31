@@ -1,11 +1,12 @@
 (function () {
   const root = document.documentElement;
   const basePath = window.__BLOG_BASE_PATH__ || "";
+  const themeStorageKey = "myentangled-theme";
 
   function setTheme(theme) {
     root.dataset.theme = theme;
     try {
-      localStorage.setItem("theme", theme);
+      localStorage.setItem(themeStorageKey, theme);
     } catch (_) {
       /* localStorage can be unavailable in strict privacy modes. */
     }
@@ -13,12 +14,12 @@
 
   function preferredTheme() {
     try {
-      const stored = localStorage.getItem("theme");
+      const stored = localStorage.getItem(themeStorageKey);
       if (stored === "dark" || stored === "light") return stored;
     } catch (_) {
       /* Ignore storage errors. */
     }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    return "light";
   }
 
   setTheme(preferredTheme());

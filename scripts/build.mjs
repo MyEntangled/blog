@@ -42,7 +42,6 @@ async function main() {
 
   await writeHomePage({ site, posts });
   await writePostIndex({ site, posts });
-  await writeTopicPages({ site, posts });
   await writeSearchPage({ site });
   await writeContentPages({ site, items });
   await writeFeeds({ site, posts, pages });
@@ -661,7 +660,6 @@ function addBacklinks(items, bySlug) {
 
 async function writeHomePage({ site, posts }) {
   const latest = posts.slice(0, 4);
-  const topics = topicCounts(posts).slice(0, 9);
   const content = `
     <main id="main">
       <section class="hero wrap">
@@ -689,17 +687,6 @@ async function writeHomePage({ site, posts }) {
           </div>
         </div>
       </section>
-      <section class="section">
-        <div class="wrap">
-          <div class="section-header">
-            <h2>Topics</h2>
-            <a href="${withBase("/topics/", site)}">Browse all</a>
-          </div>
-          <div class="topic-grid">
-            ${topics.map((topic) => renderTopicCard(topic, site)).join("")}
-          </div>
-        </div>
-      </section>
     </main>`;
 
   await writePage("/", layout({ site, title: site.title, description: site.description, url: "/", active: "/", content }));
@@ -717,36 +704,6 @@ async function writePostIndex({ site, posts }) {
       </div>
     </main>`;
   await writePage("/posts/", layout({ site, title: `Posts | ${site.title}`, description: "All posts.", url: "/posts/", active: "/posts/", content }));
-}
-
-async function writeTopicPages({ site, posts }) {
-  const topics = topicCounts(posts);
-  const indexContent = `
-    <main id="main" class="listing">
-      <header class="listing-header">
-        <h1 class="listing-title">Topics</h1>
-        <p class="muted">A lightweight index generated from post tags.</p>
-      </header>
-      <div class="topic-grid">
-        ${topics.map((topic) => renderTopicCard(topic, site)).join("")}
-      </div>
-    </main>`;
-  await writePage("/topics/", layout({ site, title: `Topics | ${site.title}`, description: "Browse posts by topic.", url: "/topics/", active: "/topics/", content: indexContent }));
-
-  for (const topic of topics) {
-    const postsForTopic = posts.filter((post) => post.tags.includes(topic.slug));
-    const content = `
-      <main id="main" class="listing">
-        <header class="listing-header">
-          <h1 class="listing-title">${escapeHtml(topic.label)}</h1>
-          <p class="muted">${postsForTopic.length} ${postsForTopic.length === 1 ? "post" : "posts"} tagged ${escapeHtml(topic.label)}.</p>
-        </header>
-        <div class="post-list">
-          ${postsForTopic.map((post) => renderPostCard(post, site)).join("")}
-        </div>
-      </main>`;
-    await writePage(`/topics/${topic.slug}/`, layout({ site, title: `${topic.label} | ${site.title}`, description: `Posts tagged ${topic.label}.`, url: `/topics/${topic.slug}/`, active: "/topics/", content }));
-  }
 }
 
 async function writeSearchPage({ site }) {
@@ -806,11 +763,9 @@ async function writeFeeds({ site, posts, pages }) {
   const allUrls = [
     "/",
     "/posts/",
-    "/topics/",
     "/search/",
     ...posts.map((post) => post.url),
-    ...pages.map((page) => page.url),
-    ...topicCounts(posts).map((topic) => `/topics/${topic.slug}/`)
+    ...pages.map((page) => page.url)
   ];
 
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
@@ -890,6 +845,7 @@ function layout({ site, title, description, url, active, content, hasMath = fals
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeAttr(description)}">
+  <meta name="theme-color" content="#f9faf9">
   <link rel="canonical" href="${escapeAttr(canonical)}">
   <meta property="og:title" content="${escapeAttr(title)}">
   <meta property="og:description" content="${escapeAttr(description)}">
@@ -952,11 +908,7 @@ function renderPostCard(post, site) {
 
 function renderTags(item, site) {
   if (!item.tags.length) return "";
-  return `<div class="tag-list">${item.tags.map((tag) => `<a class="tag" href="${withBase(`/topics/${tag}/`, site)}">${escapeHtml(titleFromSlug(tag))}</a>`).join("")}</div>`;
-}
-
-function renderTopicCard(topic, site) {
-  return `<a class="topic-card" href="${withBase(`/topics/${topic.slug}/`, site)}"><span>${escapeHtml(topic.label)}</span><span class="muted">${topic.count}</span></a>`;
+  return `<div class="tag-list">${item.tags.map((tag) => `<span class="tag">${escapeHtml(titleFromSlug(tag))}</span>`).join("")}</div>`;
 }
 
 function renderSidePanel(item, site) {
@@ -968,18 +920,6 @@ function renderSidePanel(item, site) {
 function renderBacklinks(item, site) {
   if (!item.backlinks.length) return "";
   return `<section class="backlinks" aria-labelledby="backlinks-heading"><h2 id="backlinks-heading">Backlinks</h2><ul>${item.backlinks.map((backlink) => `<li><a href="${withBase(backlink.url, site)}">${escapeHtml(backlink.title)}</a>${backlink.summary ? ` <span class="muted">&mdash; ${escapeHtml(backlink.summary)}</span>` : ""}</li>`).join("")}</ul></section>`;
-}
-
-function topicCounts(posts) {
-  const counts = new Map();
-  for (const post of posts) {
-    for (const tag of post.tags) {
-      counts.set(tag, (counts.get(tag) || 0) + 1);
-    }
-  }
-  return [...counts.entries()]
-    .map(([slug, count]) => ({ slug, label: titleFromSlug(slug), count }))
-    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
 async function writePage(url, html) {

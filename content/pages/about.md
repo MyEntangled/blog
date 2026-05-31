@@ -8,7 +8,7 @@ This site is a public research notebook for quantum computing: short derivations
 
 The writing system is intentionally plain. Posts are Markdown files, equations are ordinary LaTeX, citations are keyed in a small JSON bibliography, and links between notes are checked during the build. That keeps the blog closer to a research notebook than a content management system.
 
-## Topics I Expect To Revisit
+## Research Threads I Expect To Revisit
 
 - quantum error correction and threshold estimates
 - surface-code decoders and fault-tolerant gates
