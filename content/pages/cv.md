@@ -8,19 +8,18 @@ slug: "cv"
 
 ## Professional Summary
 
-I am a PhD student working on quantum computing, with interests around quantum algorithms, quantum information, and the mathematical structures that make quantum models interpretable. This site is where I keep research notes, longer-form explanations, and links between ideas that I expect to revisit.
-
+Erio Duong is a PhD student working on quantum computing, with interests in quantum algorithms, quantum information, and quantum error correction. Erio is passionate about exploring the potential of quantum computing to solve complex problems and understanding mathematical structures underlying quantum models.
 {{ cv-download href="/media/erio-cv.pdf" label="Download CV" }}
 
 ## Education
 
-{{ cv-education degree="PhD student in Quantum Computing" school="RWTH Aachen University" meta="Aachen, Germany" detail="Research at the intersection of quantum computation, algorithms, and mathematical modeling." }}
+{{ cv-education degree="PhD in Quantum Computing" school="RWTH Aachen University" meta="Aachen, Germany (2025-.)" detail="Supervisor: Norbert Hosters, Matthias Möller." }}
 
-{{ cv-education degree="Previous degree" school="Add university or institute" meta="Add location and dates" detail="Add thesis topic, specialization, supervisor, or notable coursework." }}
+{{ cv-education degree="MSc in Applied Mathematics" school="Delft University of Technology" meta="Delft, Netherlands (2023-2025)" detail="Supervisor: Matthias Möller. Thesis topic: Quantum Algorithms for the Lattice Boltzmann Method: Encoding and Evolution." }}
 
 ## Interests
 
-{{ cv-chips items="quantum computing;quantum algorithms;quantum information;quantum error correction;quantum lattice Boltzmann methods;mathematical modeling;scientific computing" }}
+{{ cv-chips items="mathematical modeling and optimization;CFD;fault-tolerant quantum algorithms" }}
 
 ## My Research
 
