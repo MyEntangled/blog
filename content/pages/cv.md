@@ -6,9 +6,9 @@ slug: "cv"
 
 ## Contact
 
-- Name: Erio Duong
-- Email: Add email address
-- Website: Add personal or institutional website
+- Name: Trong Duong, but I also go by Erio.
+- Email: duong(at)cats(dot)rwth-aachen(dot)de
+- Websites: 
 - ORCID: Add ORCID iD
 - GitHub: Add GitHub profile
 - Location: Add city or institution
