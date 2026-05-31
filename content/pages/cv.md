@@ -4,7 +4,7 @@ summary: "Academic profile, research interests, education, and contact links."
 slug: "cv"
 ---
 
-{{ cv-profile image="/media/profile.jpeg" name="Trong (Erio) Duong" title="PhD student in quantum computing" affiliation="CATS, RWTH Aachen University" location="Aachen, Germany" links="Email|mailto:duong@cats.rwth-aachen.de;GitHub|https://github.com/MyEntangled;LinkedIn|https://www.linkedin.com/;Institution|https://www.cats.rwth-aachen.de/" }}
+{{ cv-profile image="/media/profile.jpg" name="Trong (Erio) Duong" title="PhD student in quantum computing" affiliation="CATS, RWTH Aachen University" location="Aachen, Germany" links="Email|mailto:duong@cats.rwth-aachen.de;GitHub|https://github.com/MyEntangled;LinkedIn|https://www.linkedin.com/;Institution|https://www.cats.rwth-aachen.de/" }}
 
 ## Professional Summary
 
