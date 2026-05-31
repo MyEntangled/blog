@@ -15,8 +15,7 @@ Erio Duong is a PhD student working on quantum computing, with interests in quan
 
 {{ cv-education degree="PhD in Quantum Computing" school="RWTH Aachen University" meta="Aachen, Germany | 2025-now" detail="Supervisor: Norbert Hosters, Matthias Möller." }}
 
-{{ cv-education degree="MSc in Applied Mathematics" school="Delft University of Technology (TU Delft)" meta="Delft, Netherlands | 2023-2025" detail="Supervisor: Matthias Möller.\
-Thesis topic: Quantum Algorithms for the Lattice Boltzmann Method: Encoding and Evolution." }}
+{{ cv-education degree="MSc in Applied Mathematics" school="Delft University of Technology (TU Delft)" meta="Delft, Netherlands | 2023-2025" detail="Supervisor: Matthias Möller." detail="Thesis topic: Quantum Algorithms for the Lattice Boltzmann Method: Encoding and Evolution." }}
 
 {{ cv-education degree="BSc in Mathematical Sciences" school="Korea Advanced Institute of Science and Technology (KAIST)" meta="Daejeon, South Korea | 2019-2023" }}
 
