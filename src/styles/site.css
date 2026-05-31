@@ -425,7 +425,7 @@ input,
 
 .cv-profile h1 {
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 4.2vw, 2.5rem);
+  font-size: clamp(1.8rem, 4.2vw, 2.1rem);
   font-weight: 620;
   line-height: 1.04;
   margin: 0;
