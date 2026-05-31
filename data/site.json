@@ -1,10 +1,10 @@
 {
-  "title": "MyEntangled Blog",
-  "description": "Research notes on quantum computing, error correction, quantum information, and the mathematics that ties them together.",
-  "author": "Erio Duong",
+  "title": "MyEntangled",
+  "description": "Academic blog of a PhD student in quantum computing.",
+  "author": "Erio Trong Duong",
   "language": "en",
   "url": "https://myentangled.github.io",
-  "basePath": "/MyEntangled_blog",
+  "basePath": "/blog",
   "repo": "https://github.com/MyEntangled/MyEntangled_blog",
   "accent": "#2f6f73",
   "nav": [
