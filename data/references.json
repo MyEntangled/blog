@@ -29,5 +29,12 @@
     "year": "2018",
     "doi": "10.22331/q-2018-08-06-79",
     "url": "https://doi.org/10.22331/q-2018-08-06-79"
+  },
+  "duong2026qlbm": {
+    "authors": "Trong Duong, Matthias M\u00f6ller, and Norbert Hosters",
+    "title": "Quantum Lattice Boltzmann with Denoising Collision Operators",
+    "venue": "arXiv:2604.09997",
+    "year": "2026",
+    "url": "https://arxiv.org/abs/2604.09997"
   }
 }
