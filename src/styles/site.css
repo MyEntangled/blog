@@ -418,17 +418,18 @@ input,
 .cv-photo {
   aspect-ratio: 1;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 50%;
   object-fit: cover;
   width: 100%;
 }
 
 .cv-profile h1 {
   font-family: var(--serif);
-  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-size: clamp(1.8rem, 4.2vw, 3.1rem);
   font-weight: 620;
-  line-height: 1;
+  line-height: 1.04;
   margin: 0;
+  white-space: nowrap;
 }
 
 .cv-role {
@@ -968,6 +969,10 @@ figcaption {
 
   .cv-profile {
     grid-template-columns: 1fr;
+  }
+
+  .cv-profile h1 {
+    white-space: normal;
   }
 
   .cv-photo {

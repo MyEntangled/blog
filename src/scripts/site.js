@@ -44,6 +44,18 @@
     }, { once: true });
   });
 
+  document.querySelectorAll("[data-email-link]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const encoded = link.getAttribute("data-email-encoded") || "";
+      const address = encoded.split("-")
+        .filter(Boolean)
+        .map((code) => String.fromCharCode(Number.parseInt(code, 36)))
+        .join("");
+      if (address) window.location.href = "mailto:" + address;
+    });
+  });
+
   const searchRoot = document.querySelector("[data-search]");
   if (searchRoot) {
     const input = searchRoot.querySelector("input");

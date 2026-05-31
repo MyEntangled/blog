@@ -1,4 +1,4 @@
-# Trong (Erio) Duong
+# Erio Trong Duong
 
 PhD student in quantum computing  
 CATS, RWTH Aachen University  

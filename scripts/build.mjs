@@ -611,7 +611,6 @@ function renderDirective(directive, ctx) {
     return `<section class="cv-profile">
       <div class="cv-photo-wrap"><img class="cv-photo" src="${escapeAttr(image)}" alt="${escapeAttr(name)} profile picture" loading="eager" decoding="async"></div>
       <div class="cv-profile-body">
-        <p class="eyebrow">Academic CV</p>
         <h1>${escapeHtml(name)}</h1>
         ${title ? `<p class="cv-role">${escapeHtml(title)}</p>` : ""}
         ${affiliation || location ? `<p class="cv-affiliation">${[affiliation, location].filter(Boolean).map(escapeHtml).join(" &middot; ")}</p>` : ""}
@@ -662,9 +661,20 @@ function parseCvLinks(raw) {
 
 function renderCvLink(link) {
   const initial = (link.label || "L").trim().charAt(0).toUpperCase();
+  if (link.href.startsWith("email:")) {
+    const addressParts = link.href.slice("email:".length).split(",").map((part) => part.trim()).filter(Boolean);
+    const user = addressParts.shift() || "";
+    const domain = addressParts.join(".");
+    const encoded = encodeEmailAddress(user && domain ? `${user}@${domain}` : "");
+    return `<a class="cv-link" href="#email" data-initial="${escapeAttr(initial)}" data-email-link data-email-encoded="${escapeAttr(encoded)}"><span>${escapeHtml(link.label)}</span></a>`;
+  }
   const isExternal = /^(https?:)?\/\//.test(link.href);
   const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
   return `<a class="cv-link" href="${escapeAttr(link.href)}" data-initial="${escapeAttr(initial)}"${target}><span>${escapeHtml(link.label)}</span></a>`;
+}
+
+function encodeEmailAddress(address) {
+  return Array.from(address).map((char) => char.charCodeAt(0).toString(36)).join("-");
 }
 
 function renderFootnotes(ctx) {
