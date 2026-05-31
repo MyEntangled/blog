@@ -628,13 +628,15 @@ function renderDirective(directive, ctx) {
   if (directive.name === "cv-education") {
     const degree = directive.attrs.degree || "Degree";
     const school = directive.attrs.school || "School";
-    const meta = directive.attrs.meta || "";
-    const detail = directive.attrs.detail || "";
+    const metaParts = parseEducationMeta(directive.attrs.meta || "");
+    const location = directive.attrs.location || metaParts.location;
+    const time = directive.attrs.time || metaParts.time;
+    const details = parseEducationDetails(directive.attrs.details || directive.attrs.detail || "");
     return `<article class="cv-education-card">
-      ${meta ? `<p class="cv-card-meta">${renderInline(meta, ctx)}</p>` : ""}
+      ${location || time ? `<div class="cv-card-meta">${location ? `<span>${renderInline(location, ctx)}</span>` : "<span></span>"}${time ? `<span>${renderInline(time, ctx)}</span>` : ""}</div>` : ""}
       <h3>${renderInline(degree, ctx)}</h3>
       <p class="cv-school">${renderInline(school, ctx)}</p>
-      ${detail ? `<p>${renderInline(detail, ctx)}</p>` : ""}
+      ${details.length ? `<div class="cv-education-details">${details.map((detail) => `<p>${renderInline(detail, ctx)}</p>`).join("")}</div>` : ""}
     </article>`;
   }
 
@@ -657,6 +659,18 @@ function parseCvLinks(raw) {
       return { label: label || href, href: href || label };
     })
     .filter((link) => link.href);
+}
+
+function parseEducationMeta(raw) {
+  const [location = "", time = ""] = String(raw).split("|").map((part) => part.trim());
+  return { location, time };
+}
+
+function parseEducationDetails(raw) {
+  return String(raw)
+    .split(";")
+    .map((detail) => detail.trim())
+    .filter(Boolean);
 }
 
 function renderCvLink(link) {

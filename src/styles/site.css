@@ -499,7 +499,7 @@ input,
   margin-top: -1rem;
 }
 
-.cv-education-card h3 {
+.page-cv .cv-education-card h3 {
   font-family: var(--serif);
   font-size: 1.35rem;
   font-weight: 620;
@@ -507,19 +507,38 @@ input,
 }
 
 .cv-card-meta {
+  align-items: start;
   color: var(--accent-warm);
+  display: flex;
   font-family: var(--sans);
   font-size: 0.82rem;
   font-weight: 800;
+  gap: 1rem;
+  justify-content: space-between;
   margin: 0;
   text-transform: uppercase;
 }
 
-.cv-school {
+.cv-card-meta span:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.page-cv .cv-school {
   color: var(--text);
   font-family: var(--sans);
   font-weight: 700;
   margin: 0.25rem 0;
+}
+
+.cv-education-details {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.6rem;
+}
+
+.page-cv .cv-education-details p {
+  margin: 0;
 }
 
 .cv-chip-list {
@@ -988,4 +1007,5 @@ figcaption {
   .cv-link {
     width: 100%;
   }
+
 }
