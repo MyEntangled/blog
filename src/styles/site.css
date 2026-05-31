@@ -1,18 +1,18 @@
 :root {
   color-scheme: light;
   --bg: #f9faf9;
-  --surface: #f8f4f7;
-  --surface-raised: #fffafd;
-  --surface-soft: #e6dde3;
-  --text: #211d21;
-  --muted: #6f626b;
-  --line: #d6cad2;
-  --line-strong: #bbaeba;
+  --surface: #f9faf9;
+  --surface-raised: #ffffff;
+  --surface-soft: #eef1ef;
+  --text: #1f2421;
+  --muted: #646b66;
+  --line: #d8dedb;
+  --line-strong: #bac4bf;
   --accent: #4f7174;
   --accent-strong: #35575b;
   --accent-warm: #875f73;
-  --code-bg: #e9e1e7;
-  --shadow: 0 18px 42px rgba(62, 48, 58, 0.11);
+  --code-bg: #eef1ef;
+  --shadow: 0 18px 42px rgba(48, 55, 51, 0.1);
   --measure: 740px;
   --wide: 1120px;
   --radius: 8px;
@@ -270,14 +270,10 @@ input,
 }
 
 .hero-media img {
-  aspect-ratio: 4 / 3;
-  background: var(--surface-raised);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  aspect-ratio: 1;
+  margin: 0 auto;
   object-fit: contain;
-  padding: clamp(2rem, 8vw, 5rem);
-  width: 100%;
+  width: min(100%, 520px);
 }
 
 .section {

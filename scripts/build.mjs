@@ -673,7 +673,7 @@ async function writeHomePage({ site, posts }) {
           </div>
         </div>
         <div class="hero-media">
-          <img src="${withBase("/favicon.svg", site)}" alt="${escapeAttr(site.title)} mark" loading="eager" decoding="async">
+          <img src="${withBase("/favicon_transparent.svg", site)}" alt="${escapeAttr(site.title)} mark" loading="eager" decoding="async">
         </div>
       </section>
       <section class="section">
