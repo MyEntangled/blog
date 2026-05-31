@@ -10,7 +10,7 @@ slug: "cv"
 
 I am a PhD student working on quantum computing, with interests around quantum algorithms, quantum information, and the mathematical structures that make quantum models interpretable. This site is where I keep research notes, longer-form explanations, and links between ideas that I expect to revisit.
 
-{{ cv-download href="/media/erio-trong-duong-cv.md" label="Download CV" }}
+{{ cv-download href="/media/erio-cv.pdf" label="Download CV" }}
 
 ## Education
 
