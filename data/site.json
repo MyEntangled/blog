@@ -1,0 +1,16 @@
+{
+  "title": "MyEntangled Blog",
+  "description": "Research notes on quantum computing, error correction, quantum information, and the mathematics that ties them together.",
+  "author": "Eriod Uong",
+  "language": "en",
+  "url": "https://myentangled.github.io",
+  "basePath": "/MyEntangled_blog",
+  "repo": "https://github.com/MyEntangled/MyEntangled_blog",
+  "accent": "#2f6f73",
+  "nav": [
+    { "label": "Posts", "href": "/posts/" },
+    { "label": "Topics", "href": "/topics/" },
+    { "label": "Search", "href": "/search/" },
+    { "label": "About", "href": "/about/" }
+  ]
+}

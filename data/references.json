@@ -1,0 +1,33 @@
+{
+  "nielsen2010": {
+    "authors": "Michael A. Nielsen and Isaac L. Chuang",
+    "title": "Quantum Computation and Quantum Information",
+    "venue": "Cambridge University Press",
+    "year": "2010",
+    "url": "https://www.cambridge.org/core/books/quantum-computation-and-quantum-information/01E10196D0A682A6AEFFEA52D53BE9AE"
+  },
+  "shor1995": {
+    "authors": "Peter W. Shor",
+    "title": "Scheme for reducing decoherence in quantum computer memory",
+    "venue": "Physical Review A",
+    "year": "1995",
+    "doi": "10.1103/PhysRevA.52.R2493",
+    "url": "https://doi.org/10.1103/PhysRevA.52.R2493"
+  },
+  "fowler2012": {
+    "authors": "Austin G. Fowler, Matteo Mariantoni, John M. Martinis, and Andrew N. Cleland",
+    "title": "Surface codes: Towards practical large-scale quantum computation",
+    "venue": "Physical Review A",
+    "year": "2012",
+    "doi": "10.1103/PhysRevA.86.032324",
+    "url": "https://doi.org/10.1103/PhysRevA.86.032324"
+  },
+  "preskill2018": {
+    "authors": "John Preskill",
+    "title": "Quantum Computing in the NISQ era and beyond",
+    "venue": "Quantum",
+    "year": "2018",
+    "doi": "10.22331/q-2018-08-06-79",
+    "url": "https://doi.org/10.22331/q-2018-08-06-79"
+  }
+}

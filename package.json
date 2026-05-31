@@ -1,0 +1,16 @@
+{
+  "name": "myentangled-blog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A dependency-light academic blog for quantum computing notes.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "check": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
