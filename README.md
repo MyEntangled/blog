@@ -62,6 +62,12 @@ The surface-code literature is a good baseline [@fowler2012].
 
 Only cited references appear in the page bibliography.
 
+To show full reference details immediately, such as on a publications page, use an inline bibliography directive:
+
+```md
+{{ bibliography keys="duong2026qlbm; duong2022qnas" }}
+```
+
 ## Media
 
 Use root-relative paths for local media:

@@ -5,4 +5,4 @@ slug: "publications"
 ---
 
 ## Published articles
-    [@duong2026qlbm; @duong2022qnas]
+{{ bibliography keys="duong2026qlbm; duong2022qnas" }}

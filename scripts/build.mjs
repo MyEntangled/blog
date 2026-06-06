@@ -599,6 +599,15 @@ function renderDirective(directive, ctx) {
     return `<figure class="media-block"><button class="lite-video" type="button" data-youtube="${escapeAttr(id)}" data-title="${escapeAttr(title)}"><img src="${escapeAttr(thumbnail)}" alt="" loading="lazy" decoding="async"><span class="play-badge">Play video</span></button>${caption}</figure>`;
   }
 
+  if (directive.name === "bibliography" || directive.name === "publications") {
+    const keys = parseReferenceKeys(directive.attrs.keys || directive.attrs.items || "");
+    if (!keys.length) {
+      errors.push(`Bibliography directive missing keys in ${ctx.item.sourcePath}.`);
+      return "";
+    }
+    return renderInlineBibliography(keys, ctx);
+  }
+
   if (directive.name === "cv-profile") {
     const image = assetUrl(directive.attrs.image || "/media/profile.svg", ctx.site);
     const name = directive.attrs.name || ctx.item.title;
@@ -645,6 +654,18 @@ function renderDirective(directive, ctx) {
 
   warnings.push(`Unknown directive "{{ ${directive.name} }}" in ${ctx.item.sourcePath}.`);
   return "";
+}
+
+function parseReferenceKeys(raw) {
+  return String(raw)
+    .split(/[;,\s]+/)
+    .map((key) => key.trim().replace(/^@/, ""))
+    .filter(Boolean);
+}
+
+function renderInlineBibliography(keys, ctx) {
+  const refs = keys.map((key) => renderReferenceItem(key, ctx, "inline-ref")).join("");
+  return `<ol class="bibliography-list">${refs}</ol>`;
 }
 
 function parseCvLinks(raw) {
@@ -703,13 +724,20 @@ function renderFootnotes(ctx) {
 
 function renderReferences(ctx) {
   if (!ctx.citations.length) return "";
-  const refs = ctx.citations.map((key) => {
-    const ref = ctx.references[key];
-    const doi = ref.doi ? ` <span class="muted">doi:</span> <a href="${escapeAttr(ref.url || `https://doi.org/${ref.doi}`)}">${escapeHtml(ref.doi)}</a>` : "";
-    const title = ref.url ? `<a href="${escapeAttr(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref.title)}</a>` : escapeHtml(ref.title);
-    return `<li id="ref-${escapeAttr(key)}">${escapeHtml(ref.authors)} (${escapeHtml(ref.year)}). ${title}. <em>${escapeHtml(ref.venue || "")}</em>.${doi}</li>`;
-  }).join("");
+  const refs = ctx.citations.map((key) => renderReferenceItem(key, ctx, "ref")).join("");
   return `<section class="references" aria-labelledby="references-heading"><h2 id="references-heading">References</h2><ol>${refs}</ol></section>`;
+}
+
+function renderReferenceItem(key, ctx, idPrefix) {
+  const ref = ctx.references[key];
+  if (!ref) {
+    errors.push(`Missing reference "${key}" in ${ctx.item.sourcePath}.`);
+    return `<li class="missing-ref">[@${escapeHtml(key)}]</li>`;
+  }
+  const doi = ref.doi ? ` <span class="muted">doi:</span> <a href="${escapeAttr(ref.url || `https://doi.org/${ref.doi}`)}">${escapeHtml(ref.doi)}</a>` : "";
+  const title = ref.url ? `<a href="${escapeAttr(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref.title)}</a>` : escapeHtml(ref.title);
+  const venue = ref.venue ? ` <em>${escapeHtml(ref.venue)}</em>.` : "";
+  return `<li id="${escapeAttr(idPrefix)}-${escapeAttr(key)}">${escapeHtml(ref.authors)} (${escapeHtml(ref.year)}). ${title}.${venue}${doi}</li>`;
 }
 
 function validateInternalAnchors(items, bySlug) {

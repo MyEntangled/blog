@@ -787,6 +787,15 @@ figcaption {
   padding-left: 1.4rem;
 }
 
+.bibliography-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.4rem;
+}
+
+.bibliography-list li + li {
+  margin-top: 0.6rem;
+}
+
 .side-panel {
   align-self: start;
   display: grid;
