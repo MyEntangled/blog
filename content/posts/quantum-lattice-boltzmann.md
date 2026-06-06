@@ -13,11 +13,11 @@ is simple: if we want quantum computers to simulate fluids, we need a way to
 handle the nonlinearity of fluid dynamics.
 
 ## Lattice Boltzmann method
-The Lattice Boltzmann Method, or LBM, describes a fluid through particle
-populations living on a lattice. The particles can only travel along a finite
+The lattice Boltzmann method, or LBM, describes a fluid through particle
+populations living on a lattice. The particles can only travel along a finite,
 predetermined set of velocities. At each grid point, we store a small set of
 numbers $f_i(x,t)$, one for each discrete velocity direction $c_i$. LBM is a 
-time-marching method whose individual time step involves two main dynamical processes. 
+time-marching method in which each time step involves two main dynamical processes. 
 First, collision changes the local populations so they relax toward an equilibrium 
 distribution. Second, streaming moves each population to a neighboring lattice node
 along its velocity direction. The diagram below depicts a simple 2D lattice configuration.
@@ -34,14 +34,14 @@ is lost. This poses the main difficulty for simulating the LBM on quantum comput
 since quantum operators, by contrast, are linear and reversible.
 
 ## Treatment of the nonlinear collision
-Many quantum LBM approaches deal with this by interrupting the quantum
+Many quantum LBM approaches implement the collision step by interrupting the quantum
 evolution. They measure the state, reconstruct enough classical information,
 compute a new equilibrium, and prepare a fresh state. That can be useful for
 proofs of concept, but it pays a large measurement and state-preparation cost at
 every time step. Other approaches use larger linear embeddings, such as
 Carleman-type ideas, but those can lead to deep circuits and difficult resource
-requirements. Our question was whether we can reinterpret the collision step so 
-that it becomes closer to a quantum-native operation?
+requirements. Our question was whether we could reinterpret the collision step so 
+that it becomes implementable by quantum-native operations.
 
 The approach we explore is to treat initial distributions as out-of-equilibrium 
 signals that undergo a denoising process as they relax back toward equilibrium. 
@@ -60,11 +60,11 @@ onto the tangent space.
 More precisely, the quantum state stores square-root amplitudes of the particle
 populations. We will not go into details about the encoding state, but it encodes 
 vectors of the form $\sqrt{\mathbf{f}} = (\sqrt{f_1}, \dots, \sqrt{f_q})$, where $q$ 
-is the size of the velocity set. The equilibrium manifold is described by vectors of the form
-$\sqrt{\mathbf{f}^{\mathrm{eq}}(\rho,u)}$. Around a reference velocity $\hat{\mathbf{u}}$, we
-build a Jacobian $J$ whose columns are partial derivatives with 
-respect to $\rho$ and $\mathbf{u}$, which span the local linearization of this manifold. 
-The denoising collision operator is the projector
+is the size of the velocity set. The equilibrium manifold is described by vectors 
+of the form $\sqrt{\mathbf{f}^{\mathrm{eq}}(\rho,u)}$. Around a reference velocity 
+$\hat{\mathbf{u}}$, we build a Jacobian $J$ whose columns are partial derivatives 
+with respect to $\rho$ and $\mathbf{u}$, which span the local linearization of 
+this manifold. The denoising collision operator is the projector
 
 $$
 D(\hat{\mathbf{u}}) = J \left( J^\top J \right)^{-1} J^\top.
@@ -72,31 +72,41 @@ $$
 
 As a projection onto the linearized manifold at $\hat{\mathbf{u}}$, this operator 
 removes components orthogonal to the local equilibrium geometry. We called it a 
-denoising operator as it filters out local non-equilibrium noise. The following figure 
+denoising operator because it filters out local non-equilibrium noise. The following figure 
 is a simplified scheme in which the post-collision state $\sqrt{\mathbf{f}^{\mathrm{col}}}$
 lies on the tangent line at a reference point on the manifold. 
 
 ![Projection onto tangent space](/media/qlbm/projection.png)
 
 ## Results and outlook
-The rest of the paper analyzes the properties and errors of this operator and builds a full quantum pipeline around this operator. The collision operator itself is not unitary, so we implement it through block encoding with an ancilla. The paper also includes circuit implementations of multi-timestep LBM simulations with simple boundary conditions.
+The rest of the paper analyzes the properties and errors of this operator and 
+builds a full quantum pipeline around it. The collision operator itself is not 
+unitary, so we implement it through block encoding with an ancilla. The paper also 
+includes circuit implementations of multi-timestep LBM simulations with simple boundary 
+conditions.
 
-The numerical experiments are encouraging with an important caveat that reference velocity is the main practical lever. The current experiments
-show that a good $\hat{\mathbf{u}}$ can make the projection behave like a useful collision operator, while a bad one can visibly degrade the simulation. One
-natural next step is to make $\hat{\mathbf{u}}$ position- and time-dependent, ideally
-without making the circuit depth explode. Another is to extend the framework
-beyond the full-relaxation setting used here so that viscosity can be tuned more flexibly.
+The numerical experiments are encouraging, with an important caveat: the reference 
+velocity is the main practical lever. The current experiments show that a good 
+$\hat{\mathbf{u}}$ can make the projection behave like a useful collision operator, 
+while a bad one can visibly degrade the simulation. One natural next step is to 
+make $\hat{\mathbf{u}}$ position- and time-dependent, ideally without making the 
+circuit depth explode. Another is to extend the framework beyond the full-relaxation 
+setting used here so that viscosity can be tuned more flexibly.
 
-There is also a larger quantum-algorithmic issue that involves post-selection. Even if one
-collision step succeeds with high probability, repeated time steps multiply the
-failure probabilities. We show that standard oblivious amplitude
+There is also a larger quantum-algorithmic issue that involves post-selection. 
+Even if one collision step succeeds with high probability, repeated time steps 
+multiply the failure probabilities. We show that standard oblivious amplitude
 amplification does not solve this for an orthogonal projector. As an outlook, we
 describe a possible deterministic route using double-bracket quantum algorithms,
-replacing post-selected projection with a coherent evolution generated by $H = I - D$. This is not yet an efficient recipe, but it points toward fully coherent
-multi-step quantum LBM.
+replacing post-selected projection with a coherent evolution generated by $H = I - D$. 
+This is not yet an efficient recipe, but it points toward fully coherent
+multi-timestep quantum LBM.
 
 For me, the main message is that nonlinear physics does not always need to be
-imported into quantum algorithms by direct and sequential arithmetic. Sometimes it is possible to take advantage of the geometric structure that the nonlinear dynamics is enforcing. In this case, collision is interpreted as denoising, which is effectively approximated by a projection.
+imported into quantum algorithms through direct, sequential arithmetic. Sometimes 
+it is possible to take advantage of the geometric structure that the nonlinear 
+dynamics enforce. In this case, collision is interpreted as denoising, which is 
+effectively approximated by a projection.
 
 The implementation is available on [GitHub](https://github.com/MyEntangled/denoise_qlbm),
 with an archived version on [Zenodo](https://doi.org/10.5281/zenodo.19482608).
