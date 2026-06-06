@@ -2,7 +2,6 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, readdir, rm, stat, writeFile, copyFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { deflateSync } from "node:zlib";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const contentDir = path.join(root, "content");
@@ -18,7 +17,6 @@ async function main() {
   const site = normalizeSite(await readJson(path.join(dataDir, "site.json"), {}));
   const references = await readJson(path.join(dataDir, "references.json"), {});
 
-  await ensureDefaultHero();
   await cleanDist();
   await copyPublicAssets();
   await copySourceAssets();
@@ -759,7 +757,7 @@ async function writeHomePage({ site, posts }) {
           </div>
         </div>
         <div class="hero-media">
-          <img src="${withBase("/favicon_transparent.svg", site)}" alt="${escapeAttr(site.title)} mark" loading="eager" decoding="async">
+          <img src="${withBase("/media/nina.png", site)}" alt="Nina, the MyEntangled raccoon" loading="eager" decoding="async">
         </div>
       </section>
       <section class="section">
@@ -939,6 +937,8 @@ function layout({ site, title, description, url, active, content, hasMath = fals
   <meta property="og:url" content="${escapeAttr(canonical)}">
   <meta property="og:image" content="${escapeAttr(absoluteUrl("/favicon.svg", site))}">
   <link rel="icon" href="${withBase("/favicon.svg", site)}" type="image/svg+xml">
+  <link rel="alternate icon" href="${withBase("/favicon_transparent.svg", site)}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="${withBase("/favicon.svg", site)}">
   <link rel="alternate" href="${withBase("/rss.xml", site)}" type="application/rss+xml" title="${escapeAttr(site.title)}">
   <link rel="stylesheet" href="${withBase("/styles/site.css", site)}">
   <script>window.__BLOG_BASE_PATH__ = ${JSON.stringify(site.basePath)};</script>
@@ -1099,116 +1099,5 @@ function escapeXml(value) {
   return escapeHtml(value).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
 
-async function ensureDefaultHero() {
-  const mediaDir = path.join(publicDir, "media");
-  const heroPath = path.join(mediaDir, "quantum-lattice.png");
-  await mkdir(mediaDir, { recursive: true });
-  if (existsSync(heroPath)) return;
-  await writeFile(heroPath, generateHeroPng(900, 675));
-}
-
-function generateHeroPng(width, height) {
-  const rows = Buffer.alloc((width * 3 + 1) * height);
-  const nodes = [];
-  for (let row = 0; row < 5; row += 1) {
-    for (let col = 0; col < 6; col += 1) {
-      nodes.push({
-        x: (0.08 + col * 0.17 + (row % 2) * 0.045) * width,
-        y: (0.15 + row * 0.18) * height
-      });
-    }
-  }
-
-  for (let y = 0; y < height; y += 1) {
-    const rowOffset = y * (width * 3 + 1);
-    rows[rowOffset] = 0;
-    for (let x = 0; x < width; x += 1) {
-      const u = x / (width - 1);
-      const v = y / (height - 1);
-      let r = 13 + 28 * u + 18 * v;
-      let g = 27 + 72 * u + 48 * (1 - v);
-      let b = 33 + 88 * (1 - u) + 34 * v;
-
-      const waveA = Math.abs(v - (0.22 + 0.08 * Math.sin(u * Math.PI * 4.5)));
-      const waveB = Math.abs(v - (0.58 + 0.1 * Math.cos(u * Math.PI * 3.2)));
-      const line = Math.max(0, 1 - Math.min(waveA, waveB) * 55);
-      r += line * 91;
-      g += line * 132;
-      b += line * 130;
-
-      const diagonal = Math.abs((u + v) % 0.22 - 0.11);
-      const trace = Math.max(0, 1 - diagonal * 95) * 0.5;
-      r += trace * 120;
-      g += trace * 72;
-      b += trace * 44;
-
-      for (const node of nodes) {
-        const dx = x - node.x;
-        const dy = y - node.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const glow = Math.max(0, 1 - dist / 56);
-        const core = Math.max(0, 1 - dist / 12);
-        r += glow * 38 + core * 165;
-        g += glow * 82 + core * 180;
-        b += glow * 78 + core * 145;
-      }
-
-      const offset = rowOffset + 1 + x * 3;
-      rows[offset] = clampByte(r);
-      rows[offset + 1] = clampByte(g);
-      rows[offset + 2] = clampByte(b);
-    }
-  }
-
-  return encodePng(width, height, rows);
-}
-
-function clampByte(value) {
-  return Math.max(0, Math.min(255, Math.round(value)));
-}
-
-function encodePng(width, height, imageData) {
-  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
-  const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(width, 0);
-  ihdr.writeUInt32BE(height, 4);
-  ihdr[8] = 8;
-  ihdr[9] = 2;
-  ihdr[10] = 0;
-  ihdr[11] = 0;
-  ihdr[12] = 0;
-
-  return Buffer.concat([
-    signature,
-    pngChunk("IHDR", ihdr),
-    pngChunk("IDAT", deflateSync(imageData, { level: 9 })),
-    pngChunk("IEND", Buffer.alloc(0))
-  ]);
-}
-
-function pngChunk(type, data) {
-  const typeBuffer = Buffer.from(type);
-  const length = Buffer.alloc(4);
-  length.writeUInt32BE(data.length, 0);
-  const crc = Buffer.alloc(4);
-  crc.writeUInt32BE(crc32(Buffer.concat([typeBuffer, data])), 0);
-  return Buffer.concat([length, typeBuffer, data, crc]);
-}
-
-const crcTable = new Uint32Array(256).map((_, index) => {
-  let c = index;
-  for (let k = 0; k < 8; k += 1) {
-    c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-  }
-  return c >>> 0;
-});
-
-function crc32(buffer) {
-  let crc = 0xffffffff;
-  for (const byte of buffer) {
-    crc = crcTable[(crc ^ byte) & 0xff] ^ (crc >>> 8);
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
 
 await main();

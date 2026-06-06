@@ -17,8 +17,6 @@ $$
 
 The reduced state $\rho_A$ is maximally mixed even though the joint state is pure. That tiny example already points toward the theme of the site: local descriptions can be incomplete, and the interesting structure often lives in the relation.
 
-![Abstract lattice of entangled qubit paths](/media/quantum-lattice.png "A generated placeholder image for the blog homepage and media pipeline.")
-
 ## Internal Links
 
 Internal links use wiki-style references. For example, the next seed note is [[error-correction-thresholds]], and section links can point to [[error-correction-thresholds#threshold-scaling|threshold scaling]] once the anchor exists.
