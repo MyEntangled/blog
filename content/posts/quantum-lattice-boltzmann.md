@@ -20,9 +20,9 @@ numbers $f_i(x,t)$, one for each discrete velocity direction $c_i$. LBM is a
 time-marching method whose individual time step involves two main dynamical processes. 
 First, collision changes the local populations so they relax toward an equilibrium 
 distribution. Second, streaming moves each population to a neighboring lattice node
-along its velocity direction.
+along its velocity direction. The diagram below depicts a simple 2D lattice configuration 
 
-![Example of an LBM lattice](/media/qlbm/lbm-lattice.png "LBM lattice")
+![Example of an LBM lattice](/media/qlbm/lbm-lattice.png "A simple")
 
 On a quantum computer, streaming is friendly. It is basically a reversible
 shift: if the velocity register says "move right", add one to the x coordinate; 
@@ -70,7 +70,10 @@ $$
 D(\hat{\mathbf{u}}) = J \left( J^\top J \right)^{-1} J^\top.
 $$
 
-As a projection onto the linearized manifold at $\hat{\mathbf{u}}$, this operator removes components orthogonal to the local equilibrium geometry. We called it a denoising operator as it filters out local non-equilibrium noise.
+As a projection onto the linearized manifold at $\hat{\mathbf{u}}$, this operator removes components orthogonal to the local equilibrium geometry. We called it a denoising operator as it filters out local non-equilibrium noise. The following figure is a simplified scheme in which the post-collision state $\sqrt{\mathbf{f}^{\mathrm{col}}}$
+lies on the tangent line at a reference point on the manifold.
+
+![Projection onto tangent space](/media/qlbm/projection.png)
 
 ## Results and outlook
 The rest of the paper analyzes the properties and errors of this operator and builds a full quantum pipeline around this operator. The collision operator itself is not unitary, so we implement it through block encoding with an ancilla. The paper also includes circuit implementations of multi-timestep LBM simulations with simple boundary conditions.
