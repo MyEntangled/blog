@@ -799,7 +799,7 @@ async function writeSearchPage({ site }) {
       </header>
       <section class="search-box">
         <label id="search-label" for="search-input">Search query</label>
-        <input id="search-input" type="search" autocomplete="off" placeholder="Try: threshold, entanglement, decoder">
+        <input id="search-input" type="search" autocomplete="off" placeholder="Try few keywords here.">
         <p class="muted" data-search-status>Loading search index...</p>
       </section>
       <div class="post-list" data-search-results></div>
