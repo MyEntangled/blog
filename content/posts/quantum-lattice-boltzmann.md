@@ -22,7 +22,7 @@ First, collision changes the local populations so they relax toward an equilibri
 distribution. Second, streaming moves each population to a neighboring lattice node
 along its velocity direction. The diagram below depicts a simple 2D lattice configuration 
 
-![Example of an LBM lattice](/media/qlbm/lbm-lattice.png "A simple")
+![Example of an LBM lattice](/media/qlbm/lbm-lattice.png "A 2D LBM lattice with 5 velocity directions.")
 
 On a quantum computer, streaming is friendly. It is basically a reversible
 shift: if the velocity register says "move right", add one to the x coordinate; 
@@ -70,8 +70,11 @@ $$
 D(\hat{\mathbf{u}}) = J \left( J^\top J \right)^{-1} J^\top.
 $$
 
-As a projection onto the linearized manifold at $\hat{\mathbf{u}}$, this operator removes components orthogonal to the local equilibrium geometry. We called it a denoising operator as it filters out local non-equilibrium noise. The following figure is a simplified scheme in which the post-collision state $\sqrt{\mathbf{f}^{\mathrm{col}}}$
-lies on the tangent line at a reference point on the manifold.
+As a projection onto the linearized manifold at $\hat{\mathbf{u}}$, this operator 
+removes components orthogonal to the local equilibrium geometry. We called it a 
+denoising operator as it filters out local non-equilibrium noise. The following figure 
+is a simplified scheme in which the post-collision state $\sqrt{\mathbf{f}^{\mathrm{col}}}$
+lies on the tangent line at a reference point on the manifold. 
 
 ![Projection onto tangent space](/media/qlbm/projection.png)
 
