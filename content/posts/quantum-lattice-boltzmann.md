@@ -20,7 +20,7 @@ numbers $f_i(x,t)$, one for each discrete velocity direction $c_i$. LBM is a
 time-marching method whose individual time step involves two main dynamical processes. 
 First, collision changes the local populations so they relax toward an equilibrium 
 distribution. Second, streaming moves each population to a neighboring lattice node
-along its velocity direction. The diagram below depicts a simple 2D lattice configuration 
+along its velocity direction. The diagram below depicts a simple 2D lattice configuration.
 
 ![Example of an LBM lattice](/media/qlbm/lbm-lattice.png "A 2D LBM lattice with 5 velocity directions.")
 
