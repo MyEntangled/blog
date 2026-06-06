@@ -3,3 +3,5 @@ dist/
 node_modules/
 .env
 *.log
+/content/posts/error-correction-thresholds.md
+/content/posts/welcome-to-myentangled.md
