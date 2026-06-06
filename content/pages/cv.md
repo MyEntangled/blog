@@ -26,9 +26,13 @@ Erio Duong is a PhD student working on quantum computing, with interests in quan
 
 ## My Research
 
-My research approaches quantum algorithms first as mathematical objects and only afterward as implementations. The emphasis is on understanding the structure and assumptions a method might exploit and when a theoretical model meets the constraints of real hardware.
+My research approaches quantum algorithms first as mathematical objects and only 
+afterward as implementations. The emphasis is on understanding the structure and 
+assumptions a method might exploit and when a theoretical model meets the constraints 
+of real hardware.
 
-A recurring theme is understanding how different mathematical viewpoints can lead to different representations and algorithmic ideas.
-
-The purpose is not merely to collect results, but to develop and apply a coherent map of ideas that spans across quantum algorithm research.
+A recurring theme is understanding how different mathematical viewpoints can lead 
+to different representations and algorithmic ideas. The purpose is not merely to 
+collect results, but to apply and further develop a coherent map of ideas that 
+spans across quantum algorithm research.
 
